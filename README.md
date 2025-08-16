@@ -18,3 +18,9 @@ lsof -i :7071
 
 func azure functionapp publish pdf-converter-func --python
 docker build --platform linux/amd64 -t pdf-converter .
+
+az functionapp show \
+ --name pdf-converter-func-2 \
+ --resource-group rg-walldetection \
+ --query defaultHostName \
+ --output tsv

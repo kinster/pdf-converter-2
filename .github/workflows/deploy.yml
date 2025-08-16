@@ -37,7 +37,7 @@ jobs:
         run: |
           docker push $ACR_LOGIN_SERVER/$IMAGE_NAME:$IMAGE_TAG
 
-      - name: ☁️ Create Function App if it doesn't exist
+      - name: ☁️ Create Function App (if not exists)
         run: |
           if ! az functionapp show --name ${{ secrets.FUNCTIONAPP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} &> /dev/null; then
             az functionapp create \
@@ -45,9 +45,9 @@ jobs:
               --resource-group ${{ secrets.RESOURCE_GROUP }} \
               --plan ${{ secrets.APP_SERVICE_PLAN }} \
               --storage-account ${{ secrets.STORAGE_ACCOUNT }} \
-              --runtime custom \
               --functions-version 4 \
-              --os-type Linux
+              --os-type Linux \
+              --runtime custom
           fi
           
       - name: ⚙️ Configure Azure Function to use container
