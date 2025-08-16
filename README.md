@@ -23,4 +23,4 @@ az functionapp show \
  --name pdf-converter-func-2 \
  --resource-group rg-walldetection \
  --query defaultHostName \
- --output tsv
+ --output tsv 
