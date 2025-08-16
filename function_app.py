@@ -14,6 +14,7 @@ app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 def hello(req: func.HttpRequest) -> func.HttpResponse:
     return func.HttpResponse("Hello from Azure Function v2", status_code=200)
 
+@app.function_name(name="pdftoimage")
 @app.route(route="pdftoimage", methods=["POST"])
 def http_trigger(req: func.HttpRequest) -> func.HttpResponse:
     try:
@@ -34,6 +35,7 @@ def http_trigger(req: func.HttpRequest) -> func.HttpResponse:
         return func.HttpResponse(f"Error: {str(e)}", status_code=500)
 
 
+@app.function_name(name="pdftoblobimage")
 @app.route(route="pdftoblobimage", methods=["POST"])
 def pdftoblobimage(req: func.HttpRequest) -> func.HttpResponse:
     try:
