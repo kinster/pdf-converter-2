@@ -47,16 +47,22 @@ jobs:
               --storage-account ${{ secrets.STORAGE_ACCOUNT }} \
               --deployment-container-image-name $ACR_LOGIN_SERVER/$IMAGE_NAME:$IMAGE_TAG
           fi
-          
+
       - name: ⚙️ Configure Azure Function to use container
         run: |
           az functionapp config container set \
             --name ${{ secrets.FUNCTIONAPP_NAME }} \
             --resource-group ${{ secrets.RESOURCE_GROUP }} \
-            --settings \
-              AZURE_STORAGE_CONNECTION_STRING="${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}" \
-              AZURE_STORAGE_KEY="${{ secrets.AZURE_STORAGE_KEY }}"
             --image $ACR_LOGIN_SERVER/$IMAGE_NAME:$IMAGE_TAG \
             --registry-server https://$ACR_LOGIN_SERVER \
             --registry-username ${{ secrets.ACR_USERNAME }} \
             --registry-password ${{ secrets.ACR_PASSWORD }}
+
+      - name: 🔐 Set Azure Function App Settings
+        run: |
+          az functionapp config appsettings set \
+            --name ${{ secrets.FUNCTIONAPP_NAME }} \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --settings \
+              AZURE_STORAGE_CONNECTION_STRING="${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}" \
+              AZURE_STORAGE_KEY="${{ secrets.AZURE_STORAGE_KEY }}"
