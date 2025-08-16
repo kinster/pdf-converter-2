@@ -45,9 +45,7 @@ jobs:
               --resource-group ${{ secrets.RESOURCE_GROUP }} \
               --plan ${{ secrets.APP_SERVICE_PLAN }} \
               --storage-account ${{ secrets.STORAGE_ACCOUNT }} \
-              --functions-version 4 \
-              --os-type Linux \
-              --runtime custom
+              --deployment-container-image-name $ACR_LOGIN_SERVER/$IMAGE_NAME:$IMAGE_TAG
           fi
           
       - name: ⚙️ Configure Azure Function to use container
