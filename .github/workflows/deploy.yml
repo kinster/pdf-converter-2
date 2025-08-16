@@ -42,7 +42,7 @@ jobs:
           az functionapp config container set \
             --name ${{ secrets.FUNCTIONAPP_NAME }} \
             --resource-group ${{ secrets.RESOURCE_GROUP }} \
-            --docker-custom-image-name $ACR_LOGIN_SERVER/$IMAGE_NAME:$IMAGE_TAG \
-            --docker-registry-server-url https://$ACR_LOGIN_SERVER \
-            --docker-registry-server-user ${{ secrets.ACR_USERNAME }} \
-            --docker-registry-server-password ${{ secrets.ACR_PASSWORD }}
+            --image $ACR_LOGIN_SERVER/$IMAGE_NAME:$IMAGE_TAG \
+            --registry-server https://$ACR_LOGIN_SERVER \
+            --registry-username ${{ secrets.ACR_USERNAME }} \
+            --registry-password ${{ secrets.ACR_PASSWORD }}
