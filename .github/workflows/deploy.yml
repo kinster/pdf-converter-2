@@ -23,7 +23,7 @@ jobs:
 
       - name: 🐳 Log in to ACR
         run: |
-          echo ${{ secrets.ACR_PASSWORD }} | docker login ${{ secrets.ACR_NAME }}.azurecr.io \
+          echo "${{ secrets.ACR_PASSWORD }}" | docker login ${{ secrets.ACR_NAME }}.azurecr.io \
             --username ${{ secrets.ACR_USERNAME }} \
             --password-stdin
 
@@ -35,12 +35,12 @@ jobs:
         run: |
           docker push $IMAGE_NAME
 
-      - name: 📡 Deploy Function App with new image
+      - name: 🔧 Configure Function App container
         run: |
           az functionapp config container set \
-            --name ${{ secrets.FUNCTION_APP_NAME }} \
+            --name ${{ secrets.FUNCTIONAPP_NAME }} \
             --resource-group ${{ secrets.RESOURCE_GROUP }} \
-            --docker-custom-image-name $IMAGE_NAME \
+            --docker-custom-image-name ${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.IMAGE_NAME }}:latest \
             --docker-registry-server-url https://${{ secrets.ACR_NAME }}.azurecr.io \
             --docker-registry-server-user ${{ secrets.ACR_USERNAME }} \
             --docker-registry-server-password ${{ secrets.ACR_PASSWORD }}
